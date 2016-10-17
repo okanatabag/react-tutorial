@@ -10,7 +10,7 @@ class App extends React.Component {
         };
     }
     componentWillMount() {
-        this.getData();
+        this.getTodoList();
     }
     addTodo() {
         var self = this;
@@ -28,10 +28,10 @@ class App extends React.Component {
             return response.json();
         })
         .then(function(json) {
-            self.getData();
+            self.getTodoList();
         });
     }
-    getData() {
+    getTodoList() {
         var self = this;
         fetch('http://localhost:8000/todo').then((response) => {
             return response.json();
@@ -40,10 +40,11 @@ class App extends React.Component {
         });
     };
     render() {
+        var self = this;
         return (
             <div>
               <input name="name" ref="input" type="text" defaultValue=""/>
-              <button type="button" onClick={this.addTodo.bind(this)}>Ekle</button>
+              <button type="button" onClick={self.addTodo.bind(this)}>Ekle</button>
                 <ul>
                     {this.state.data.map(function(value,i) {
                         return <TodoListItem key={i} name={value.name}/>
