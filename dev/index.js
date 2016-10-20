@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import List from './Containers/Todos/List';
-require('./index.css');
+import TodoList from './Containers/Todos/TodoList';
+import css from './index.css';
 class App extends React.Component {
     render(){
-        return <List></List>
+        return <TodoList></TodoList>
     }
 }
 ReactDOM.render(<App/>, document.getElementById('app'));

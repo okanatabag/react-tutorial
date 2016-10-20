@@ -1,6 +1,8 @@
 import React from 'react';
-import ListItem from '../Components/Todos/ListItem';
-export class List extends React.Component{
+import ReactDOM from 'react-dom';
+import TodoListItem from '../../Components/Todos/TodoListItem';
+import css from './TodoList.css';
+export default class TodoList extends React.Component{
     constructor() {
         super();
         this.state = {
@@ -81,7 +83,7 @@ export class List extends React.Component{
               <button type="button" onClick={self.addTodo.bind(this)}>Ekle</button>
                 <ul>
                     {this.state.data.map(function(value,i) {
-                        return <ListItem
+                        return <TodoListItem
                                 key={value.id}
                                 prc={(value.process==0) ? {textDecoration:'none',color:'#000000'}:{textDecoration:'line-through',color:'#666666'}}
                                 name={value.name}
