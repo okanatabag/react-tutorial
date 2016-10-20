@@ -40,7 +40,7 @@ class App extends React.Component {
             self.getTodoList();
         });
     }
-    toggleTodo(id){
+    toggleTodo(id,proc){
         var self = this;
         fetch('http://localhost:8000/todo', {
             mode: 'cors',
@@ -50,7 +50,8 @@ class App extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: id
+                id: id,
+                process:(proc==0) ? 1:0
             })
         }).then(function(response) {
             return response.json();
@@ -61,16 +62,13 @@ class App extends React.Component {
     }
     delTodo(id) {
         var self = this;
-        fetch('http://localhost:8000/todo', {
+        fetch('http://localhost:8000/todo/'+id, {
             mode: 'cors',
             method: 'delete',
             headers: {
                 'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: id
-            })
+            }
         }).then(function(response) {
             return response.json();
         })
@@ -88,8 +86,9 @@ class App extends React.Component {
                     {this.state.data.map(function(value,i) {
                         return <TodoListItem
                                 key={value.id}
+                                prc={(value.process==0) ? {textDecoration:'none',color:'#000000'}:{textDecoration:'line-through',color:'#666666'}}
                                 name={value.name}
-                                toggleFunc={() =>self.toggleTodo(value.id)}
+                                toggleFunc={() =>self.toggleTodo(value.id,value.process)}
                                 delFunc={()=>self.delTodo(value.id)}  />
                     })}
                 </ul>
@@ -98,7 +97,7 @@ class App extends React.Component {
     }
 }
 function TodoListItem(props) {
-    return (<li><a className="text" href="javascript:void(0)" onClick={props.toggleFunc}>{props.name}</a> <a className="del" href="javascript:void(0)" onClick={props.delFunc}><span>&times;</span></a></li>);
+    return (<li><a className="text" href="javascript:void(0)" style={props.prc} onClick={props.toggleFunc}>{props.name}</a> <a className="del" href="javascript:void(0)" onClick={props.delFunc}><span>&times;</span></a></li>);
 }
 
 ReactDOM.render(<App/>, document.getElementById('app'));
