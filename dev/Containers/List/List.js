@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-require('./main.less');
-class App extends React.Component {
+import ListItem from '../Components/Todos/ListItem';
+export class List extends React.Component{
     constructor() {
         super();
         this.state = {
@@ -82,7 +81,7 @@ class App extends React.Component {
               <button type="button" onClick={self.addTodo.bind(this)}>Ekle</button>
                 <ul>
                     {this.state.data.map(function(value,i) {
-                        return <TodoListItem
+                        return <ListItem
                                 key={value.id}
                                 prc={(value.process==0) ? {textDecoration:'none',color:'#000000'}:{textDecoration:'line-through',color:'#666666'}}
                                 name={value.name}
@@ -94,8 +93,3 @@ class App extends React.Component {
         );
     }
 }
-function TodoListItem(props) {
-    return (<li><a className="text" href="javascript:void(0)" style={props.prc} onClick={props.toggleFunc}>{props.name}</a> <a className="del" href="javascript:void(0)" onClick={props.delFunc}><span>&times;</span></a></li>);
-}
-
-ReactDOM.render(<App/>, document.getElementById('app'));

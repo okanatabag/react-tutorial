@@ -5,7 +5,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
     watch: true,
     devtool: 'source-map',
-    entry: './dev/main.js',
+    entry: path.join(__dirname, 'dev'),
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'bundle.js',
@@ -27,7 +27,7 @@ module.exports = {
                 warnings: false
             }
         }),
-        new ExtractTextPlugin('main.css', {
+        new ExtractTextPlugin('index.css', {
             publicPath: '/dist/',
             allChunks: true
         })
@@ -43,8 +43,8 @@ module.exports = {
                 }
             },
             {
-                test: /\.less$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader')
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
             }
         ]
     }
