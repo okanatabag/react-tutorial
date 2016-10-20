@@ -1,7 +1,5 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 require('./main.less');
 class App extends React.Component {
     constructor() {
