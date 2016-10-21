@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TodoListItem from '../../Components/Todos/TodoListItem';
+import TodoInputs from '../../Components/Todos/TodoInputs';
 import css from './TodoList.css';
 export default class TodoList extends React.Component{
     constructor() {
         super();
         this.state = {
-            data: []
+            data: [],
+            todoText:'',
+            todoId:''
         };
     }
     componentWillMount() {
@@ -20,8 +23,9 @@ export default class TodoList extends React.Component{
             self.setState({data: json});
         });
     };
-    addTodo() {
+    addTodo(text) {
         var self = this;
+        //console.log(ReactDOM.findDOMNode(this).children['todo-inputs-container'].children['set-todo-text'].value);
         fetch('http://localhost:8000/todo', {
             mode: 'cors',
             method: 'post',
@@ -30,12 +34,13 @@ export default class TodoList extends React.Component{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: ReactDOM.findDOMNode(this.refs.input).value
+                name:text.value
             })
         }).then(function(response) {
             return response.json();
         })
         .then(function(json) {
+            text.value='';
             self.getTodoList();
         });
     }
@@ -53,11 +58,14 @@ export default class TodoList extends React.Component{
                 process:(proc==0) ? 1:0
             })
         }).then(function(response) {
-            return response.json();
+            self.state.data.map(function(value,i){
+                if(value.id==id){
+                    self.state.data[i].process=(proc==0) ? 1:0
+                    self.setState({data:self.state.data})
+                }
+            });
         })
-    .then(function(json) {
-        self.getTodoList();
-    });
+
     }
     delTodo(id) {
         var self = this;
@@ -75,23 +83,31 @@ export default class TodoList extends React.Component{
           self.getTodoList();
       });
     }
+    prepareTodoSet(id,text){
+        this.setState({todoId:id,todoText:text});
+    }
     render() {
         var self = this;
         return (
-            <div>
-              <input name="name" ref="input" type="text" defaultValue=""/>
-              <button type="button" onClick={self.addTodo.bind(this)}>Ekle</button>
-                <ul>
-                    {this.state.data.map(function(value,i) {
-                        return <TodoListItem
-                                key={value.id}
-                                prc={(value.process==0) ? {textDecoration:'none',color:'#000000'}:{textDecoration:'line-through',color:'#666666'}}
-                                name={value.name}
-                                toggleFunc={() =>self.toggleTodo(value.id,value.process)}
-                                delFunc={()=>self.delTodo(value.id)}  />
-                    })}
-                </ul>
-            </div>
+              <div>
+                  <TodoInputs
+                  addFunc={() => self.addTodo(document.getElementById('name'))}
+                  todoTextElement="name"
+                  todoText={self.state.todoText}
+                  todoId={self.state.todoId}>
+                  </TodoInputs>
+                  <ul>
+                      {this.state.data.map(function(value,i) {
+                          return <TodoListItem
+                                  key={i}
+                                  prc={(value.process==0) ? {textDecoration:'none',color:'#000000'}:{textDecoration:'line-through',color:'#666666'}}
+                                  name={value.name}
+                                  prepareSetFunc={()=>self.prepareTodoSet(value.id,value.name)}
+                                  toggleFunc={() =>self.toggleTodo(value.id,value.process)}
+                                  delFunc={()=>self.delTodo(value.id)}  />
+                      })}
+                  </ul>
+              </div>
         );
     }
 }
