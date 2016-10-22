@@ -1,1 +1,8 @@
 body{background: #DDDDDD;font-family: Helvetica,Arial;}
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+.clear{clear: both;}

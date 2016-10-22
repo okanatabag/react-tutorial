@@ -1,9 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import css from './TodoInputs.css';
 export default function TodoInputs(props) {
+    const propObj=props.todoInputsProps;
     return(<div>
-                <input id={props.todoTextElement} name={props.todoTextElement} type="text" defaultValue={(props.todoText!='') ? props.todoText:''}/>
-                <input name="id" type="hidden"  defaultValue={(props.todoId!='') ? props.todoId:''}/>
-                <button type="button" onClick={props.addFunc}>Ekle</button>
+                <div className="inputs_container">
+                    <input className="todo_inputs" id={propObj.todoTextElement.element} name={propObj.todoTextElement.element} onChange={propObj.funcOnChangeHandler} onKeyPress={propObj.funcSetTodoByEnter} type="text" value={propObj.todoTextElement.val}/>
+                    <input id={propObj.todoIdElement.element} name={propObj.todoIdElement.element} type="hidden"  value={propObj.todoIdElement.val}/>
+                </div>
+                <div className="buttons_container">
+                  <button type="button" onClick={propObj.funcSetTodo}>Kaydet</button>&nbsp;
+                  <button type="button" onClick={propObj.funcCancelSetTodo}>İptal</button>
+                </div>
+                <div className="clear"></div>
             </div>);
 };

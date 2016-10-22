@@ -1,0 +1,4 @@
+.inputs_container {width: 80%;float:left;}
+.buttons_container {width: 20%;float:left;text-align:right}
+button{padding:5px;}
+.todo_inputs {padding:5px;width: 100%;}

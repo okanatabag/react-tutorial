@@ -2,8 +2,8 @@ li{padding-left: 0;}
 a {display: block;
   font-weight: bold;
   text-decoration: none; color: #000000;
-  }&:hover{
-  color:#FF0000;
+  margin:5px 0px;
+  font-size: 1.2em;
 }
-.text{float:left;width: 90%}
-.del{float:right; width: 9%; color: red;}
+.text{float:left;width: 99%}
+.del{float:right; width: 1%; color: red;}
