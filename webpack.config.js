@@ -1,25 +1,25 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var path = require("path");
+var webpack = require("webpack");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-module.exports = {
-    watch: true,
-    devtool: 'source-map',
-    entry: path.join(__dirname, 'dev')+'/index.js',
+var config = {
+    devtool: "source-map",
+    entry: [
+        "webpack-hot-middleware/client",
+        path.join(__dirname, "client/index.js")
+    ],
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js',
-        publicPath: '/dist'
-    },
-    devServer: {
-        inline: true,
-        port: 3000
+        path: path.join(__dirname, "dist"),
+        filename: "bundle.js",
+        publicPath: "/dist"
     },
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
+            "process.env": {
+                "NODE_ENV": JSON.stringify("production")
             }
         }),
         new webpack.optimize.UglifyJsPlugin({
@@ -27,8 +27,8 @@ module.exports = {
                 warnings: false
             }
         }),
-        new ExtractTextPlugin('index.css', {
-            publicPath: '/dist/',
+        new ExtractTextPlugin("index.css", {
+            publicPath: "/dist/",
             allChunks: true
         })
     ],
@@ -37,15 +37,16 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['es2015', 'react']
-                }
+                loader: "babel"
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
             }
         ]
+    },
+    resolve:{
+        extentions:["",".js",".css"]
     }
 }
+module.exports = config;

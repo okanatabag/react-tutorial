@@ -1,5 +1,5 @@
-import React from 'react';
-import css from './TodoInputs.css';
+import React from "react";
+import css from "./TodoInputs.css";
 export default function TodoInputs(props) {
     const propObj=props.todoInputsProps;
     return(<div>
