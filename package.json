@@ -4,7 +4,7 @@
   "description": "",
   "main": "bundle.js",
   "scripts": {
-    "server": "babel-node server/server.js"
+    "start": "babel-node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,8 @@
     "express": "^4.14.0",
     "mysql": "^2.11.1",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
@@ -36,6 +37,7 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "react-hot-loader": "^3.0.0-beta.6",
+    "react-redux": "^4.4.5",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
     "webpack-dev-middleware": "^1.8.4",

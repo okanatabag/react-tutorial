@@ -1,15 +1,14 @@
 import React from "react";
 import css from "./TodoInputs.css";
 export default function TodoInputs(props) {
-    const propObj=props.todoInputsProps;
     return(<div>
                 <div className="inputs_container">
-                    <input className="todo_inputs" id={propObj.todoTextElement.element} name={propObj.todoTextElement.element} onChange={propObj.funcOnChangeHandler} onKeyPress={propObj.funcSetTodoByEnter} type="text" value={propObj.todoTextElement.val}/>
-                    <input id={propObj.todoIdElement.element} name={propObj.todoIdElement.element} type="hidden"  value={propObj.todoIdElement.val}/>
+                    <input className="todo_inputs" id={props.todoTextElement.element} name={props.todoTextElement.element} onChange={props.handleChange} onKeyPress={props.setTodoByEnter} type="text" value={props.todoTextElement.val}/>
+                    <input id={props.todoIdElement.element} name={props.todoIdElement.element} type="hidden"  value={props.todoIdElement.val}/>
                 </div>
                 <div className="buttons_container">
-                  <button type="button" onClick={propObj.funcSetTodo}>Kaydet</button>&nbsp;
-                  <button type="button" onClick={propObj.funcCancelSetTodo}>İptal</button>
+                  <button type="button" onClick={props.setTodo}>Kaydet</button>&nbsp;
+                  <button type="button" onClick={props.cancelSetTodo}>İptal</button>
                 </div>
                 <div className="clear"></div>
             </div>);

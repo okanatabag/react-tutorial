@@ -19,21 +19,22 @@ export default class TodoList extends React.Component{
         this.setState({todo_text_input: event.target.value});
     }
     getTodoList() {
-        var self = this;
+        let self = this;
         fetch("./todo").then((response) => {
             return response.json();
         }).then((json) => {
             self.setState({data: json});
         });
     };
-    prepareSetTodo(todoId,todoText){
+    prepareSetTodo(e,todoId,todoText){
+        e.preventDefault();
         this.setState({todo_id_input:todoId,todo_text_input:todoText});
     }
     cancelSetTodo(){
         this.setState({todo_id_input:"",todo_text_input:""});
     }
     setTodo() {
-        var self = this;
+        let self = this;
         if(self.state.todo_id_input==""){
             fetch("./todo", {
                 mode: "cors",
@@ -79,8 +80,9 @@ export default class TodoList extends React.Component{
             this.setTodo();
         }
     }
-    setStatusTodo(id,proc){
-        var self = this;
+    setStatusTodo(e,id,proc){
+        let self = this;
+        e.preventDefault();
         fetch("./todo", {
             mode: "cors",
             method: "PUT",
@@ -99,11 +101,11 @@ export default class TodoList extends React.Component{
                     self.setState({data:self.state.data})
                 }
             });
-        })
-
+        });
     }
-    delTodo(id) {
-        var self = this;
+    delTodo(e,id) {
+        let self = this;
+        e.preventDefault();
         fetch("./todo/"+id, {
             mode: "cors",
             method: "delete",
@@ -118,33 +120,30 @@ export default class TodoList extends React.Component{
                     self.setState({data:self.state.data})
                 }
             });
-        })
-
+        });
     }
     render() {
-        var self = this;
-        var todoInputsProps ={
-            todoIdElement:{element:"id",val:self.state.todo_id_input},
-            todoTextElement:{element:"todo_text_input",val:self.state.todo_text_input},
-            funcSetTodo:() => self.setTodo(),
-            funcCancelSetTodo:() => self.cancelSetTodo(),
-            funcSetTodoByEnter:() => self.setTodoByEnter(event),
-            funcOnChangeHandler:() => self.handleChange(event)
-        }
+        let self = this;
         return (
               <div>
-                  <TodoInputs todoInputsProps={todoInputsProps}></TodoInputs>
+                  <TodoInputs
+                      todoIdElement={{element:"id",val:self.state.todo_id_input}}
+                      todoTextElement={{element:"todo_text_input",val:self.state.todo_text_input}}
+                      setTodo={() => self.setTodo()}
+                      cancelSetTodo={() => self.cancelSetTodo()}
+                      setTodoByEnter={() => self.setTodoByEnter(event)}
+                      handleChange={()=> self.handleChange(event)}
+                  />
                   <ul>
                       {this.state.data.map(function(value,i) {
-                          var todoListItemProp= {
-                              todoStatus:(value.process==0) ? {textDecoration:"none",color:"#000000"}:{textDecoration:"line-through",color:"#666666"},
-                              todoElementString:value.todo_text,
-                              todoElementId:"todo"+value.id,
-                              funcSetPrepare:()=>self.prepareSetTodo(value.id,value.todo_text),
-                              funcSetStatus:()=>self.setStatusTodo(value.id,value.process),
-                              funcDel:()=>self.delTodo(value.id)
-                          }
-                          return <TodoListItem key={"item"+value.id} todoListItemProp={todoListItemProp}/>
+                          return <TodoListItem
+                                    key={value.id}
+                                    todoStatus={(value.process==0) ? {textDecoration:"none",color:"#000000"}:{textDecoration:"line-through",color:"#666666"}}
+                                    todoText={value.todo_text}
+                                    prepareSetTodo={()=>self.prepareSetTodo(event,value.id,value.todo_text)}
+                                    setStatusTodo={()=>self.setStatusTodo(event,value.id,value.process)}
+                                    delTodo={()=>self.delTodo(event,value.id)}
+                                  />
                       })}
                   </ul>
               </div>
