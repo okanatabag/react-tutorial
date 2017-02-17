@@ -28,7 +28,7 @@ var config = {
             }
         }),
         new ExtractTextPlugin("index.css", {
-            publicPath: "/dist/",
+            publicPath: "/dist",
             allChunks: true
         })
     ],
